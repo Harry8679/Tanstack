@@ -13,17 +13,14 @@ function App() {
     queryFn: getToDos,
   });
 
-  if (error) return <p>{error.message}</p>
-
   return <>
     <h1>{isSuccess && <p>Data fetched successfully</p>}</h1>
     <ul>
       {isSuccess && 
         data.map((todo: { id: number, title: string }) => (
           <li key={todo.id}>{todo.title}</li>
-        ))
-      }
-      {!isSuccess && <p>Loading ...</p>}
+        ))}
+      {error && <p>{error.message}</p>}
     </ul>
   </>
 }
