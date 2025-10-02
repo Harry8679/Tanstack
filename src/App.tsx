@@ -8,14 +8,24 @@ const getToDos = async () => {
   };
 
 function App() {
-  const { data, isPending } = useQuery({
+  const { data, error, isSuccess } = useQuery({
     queryKey: ['todos'],
     queryFn: getToDos,
   });
 
-  if (isPending) return <p>Loading. ...</p>
+  if (error) return <p>{error.message}</p>
 
-  return <>{JSON.stringify(data)}</>
+  return <>
+    <h1>{isSuccess && <p>Data fetched successfully</p>}</h1>
+    <ul>
+      {isSuccess && 
+        data.map((todo: { id: number, title: string }) => (
+          <li key={todo.id}>{todo.title}</li>
+        ))
+      }
+      {!isSuccess && <p>Loading ...</p>}
+    </ul>
+  </>
 }
 
 export default App
